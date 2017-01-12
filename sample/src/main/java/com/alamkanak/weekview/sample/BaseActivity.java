@@ -4,6 +4,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +26,7 @@ import java.util.Locale;
  * Created by Raquib-ul-Alam Kanak on 1/3/2014.
  * Website: http://alamkanak.github.io
  */
-public abstract class BaseActivity extends AppCompatActivity implements WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener, WeekView.EmptyViewClickListener, WeekView.AddEventClickListener {
+public abstract class BaseActivity extends AppCompatActivity implements WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener, WeekView.EmptyViewClickListener, WeekView.AddEventClickListener, WeekView.TimeClickListener {
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
@@ -59,7 +60,7 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
 
         // Set AddEvent Click Listener
         mWeekView.setAddEventClickListener(this);
-
+mWeekView.setTimeClickListener(this);
         // Set minDate
         /*Calendar minDate = Calendar.getInstance();
         minDate.set(Calendar.DAY_OF_MONTH, 1);
@@ -211,4 +212,21 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
     public void onAddEventClicked(Calendar startTime, Calendar endTime) {
         Toast.makeText(this, "Add event clicked.", Toast.LENGTH_SHORT).show();
     }
+
+    /**
+     * Triggered when the users clicks on a empty space of the calendar.
+     *
+     * @param dateTime : {@link Calendar} object set with the time of the clicked position on the view.
+     */
+    @Override
+    public void onTimeClicked(Calendar dateTime) {
+        if (dateTime != null) {
+
+
+            Log.d(TAG, "onTimeClicked: time is " + SimpleDateFormat.getInstance().format(dateTime.getTime()));
+        } else {
+            Log.d(TAG, "onTimeClicked: time is " + dateTime);
+        }
+    }
+    private static final String TAG = "BaseActivity";
 }
